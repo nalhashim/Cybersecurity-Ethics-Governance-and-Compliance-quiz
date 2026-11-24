@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cybersecurity Ethics Quizzes</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#1d2433;--muted:#5d6678;--line:#e3e6ee;--accent:#2f5bea;--accent-soft:#e9efff;
+--ok:#16803c;--ok-soft:#e6f6ec;--bad:#c2312f;--bad-soft:#fdecec;--code-bg:#f2f4f8;--code-text:#1d2433;--warn:#9a6700;--warn-soft:#fff6db}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1b1f29;--text:#e6e9f0;--muted:#9aa3b5;--line:#2c3240;--accent:#7c9cff;--accent-soft:#232c45;
+--ok:#4cc27a;--ok-soft:#173225;--bad:#ff7b78;--bad-soft:#3a1f22;--code-bg:#141821;--code-text:#dfe5f2;--warn:#e7b84d;--warn-soft:#33290f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px 64px}
+header.top{margin-bottom:20px}
+.crumbs{font-size:14px;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.crumbs a{text-decoration:none}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:28px;line-height:1.25;margin:4px 0 8px}
+.sub{color:var(--muted);margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.qnum{font-weight:700}
+.badge{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.status{margin-left:auto;font-size:13px;font-weight:600}
+.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}
+.qtext{margin:0 0 12px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.5;background:var(--code-bg);color:var(--code-text);
+border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:10px 0;white-space:pre}
+pre code{background:none;padding:0}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:5px}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tf{grid-template-columns:1fr 1fr}
+textarea{width:100%;min-height:90px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;padding:10px 12px;
+border:1px solid var(--line);border-radius:8px;background:var(--code-bg);color:var(--text);resize:vertical}
+textarea.code{min-height:160px}
+textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+button{font:inherit;font-size:14px;font-weight:600;border-radius:8px;padding:7px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff}
+button.ghost{background:transparent;color:var(--accent)}
+button.small{padding:5px 11px;font-size:13px}
+button:disabled{opacity:.5;cursor:default}
+.feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:15px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--ok-soft);border-left:4px solid var(--ok)}
+.feedback.bad{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.feedback.info{background:var(--accent-soft);border-left:4px solid var(--accent)}
+.feedback pre{background:var(--card)}
+.selfmark{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;font-size:14px}
+.summary{position:sticky;bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:20px;
+display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.score{font-weight:700;font-size:18px}
+.bar{flex:1 1 160px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:24px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:20px}
+.chap{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.chap:hover{border-color:var(--accent)}
+.chap .n{color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.chap h2{font-size:17px;margin:4px 0 6px;line-height:1.3}
+.chap p{margin:0;color:var(--muted);font-size:14px}
+.best{margin-top:8px;font-size:13px;color:var(--ok);font-weight:600;min-height:1em}
+footer{color:var(--muted);font-size:13px;margin-top:32px;text-align:center}
+@media (max-width:520px){h1{font-size:23px}.card{padding:16px}.tf{grid-template-columns:1fr}}
+
+.scenario{background:var(--warn-soft);border-left:4px solid var(--warn);border-radius:8px;padding:10px 14px;margin:0 0 12px}
+.scenario b.lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--warn);margin-bottom:2px}
+.fillrow{display:flex;gap:8px;flex-wrap:wrap}
+.fillrow input{flex:1 1 220px;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--code-bg);color:var(--text)}
+.fillrow input:focus{outline:2px solid var(--accent);outline-offset:1px}
+textarea.open{font-family:inherit;font-size:15px;min-height:120px}
+.feedback .model{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="kicker">SEC2102</div>
+  <h1>Cybersecurity Ethics, Governance, and Compliance: Lecture Quizzes</h1>
+  <p class="sub">12 lectures, 10 questions each. Every quiz mixes question types, and you can check or reveal each answer.</p>
+  <ul class="legend"><li class="badge">Multiple choice</li><li class="badge">True / False</li><li class="badge">Case study</li><li class="badge">Fill in the blank</li><li class="badge">Short answer</li></ul>
+</header>
+<main class="grid">
+  <a class="chap" href="lec01-ethics-in-cyberspace.html" data-ch="1">
+    <div class="n">Lecture 1</div>
+    <h2>Ethics in Cyberspace and Cybersecurity</h2>
+    <p>cyberspace, cybersecurity, the CIA triad, privacy vs security, ethics, cyberethics, cyber law, cybersecurity law, cyber policy</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec02-ethical-issues-1.html" data-ch="2">
+    <div class="n">Lecture 2</div>
+    <h2>Ethical Issues in Cybersecurity, Part 1</h2>
+    <p>types of ethical issues, copyright infringement, piracy, intellectual property, computer fraud and misuse</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec03-ethical-issues-2.html" data-ch="3">
+    <div class="n">Lecture 3</div>
+    <h2>Ethical Issues in Cybersecurity, Part 2</h2>
+    <p>plagiarism, cyberbullying, identity theft, ransomware, ethical issue categories, the fair use doctrine, the origin of cybersecurity ethics</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec04-social-media-ethics.html" data-ch="4">
+    <div class="n">Lecture 4</div>
+    <h2>Social Media Ethics and Responsible Participation</h2>
+    <p>netiquette principles, information, identity and trust, harm, expression and responses, professional participation, case studies</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec05-ethics-in-applications.html" data-ch="5">
+    <div class="n">Lecture 5</div>
+    <h2>Cybersecurity Ethics in Applications</h2>
+    <p>ethical issues in business, artificial intelligence, cloud computing, Internet of Things</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec06-cyber-laws.html" data-ch="6">
+    <div class="n">Lecture 6</div>
+    <h2>Introduction to Cyber Laws</h2>
+    <p>cyber law, the need for cyber laws, cyberethics vs cyber law, legal categories of cybercrime, cyber law and intellectual property</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec07-cybercrime-legislation.html" data-ch="7">
+    <div class="n">Lecture 7</div>
+    <h2>National and International Legislation to Combat Cybercrimes</h2>
+    <p>substantive vs procedural law, Saudi Anti-Cyber Crime Law, the GCC Riyadh Document, EU Directive 2013/40/EU, applying provisions</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec08-judicial-and-international.html" data-ch="8">
+    <div class="n">Lecture 8</div>
+    <h2>Judicial Authorities, Agreements, Treaties and International Organizations</h2>
+    <p>Saudi procedural roles, jurisdiction, police cooperation, MLA, extradition, INTERPOL, treaty stages, Budapest Convention, UN Convention, UNODC</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec09-intro-to-grc.html" data-ch="9">
+    <div class="n">Lecture 9</div>
+    <h2>Introduction to GRC (Governance, Risk, Compliance)</h2>
+    <p>governance, risk, compliance, laws (GDPR, PDPL, CCPA, HIPAA), regulations (NCA-ECC, PCI-DSS, SAMA), frameworks (NIST CSF 2.0, ISO 27001)</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec10-governance-components-1.html" data-ch="10">
+    <div class="n">Lecture 10</div>
+    <h2>Governance Components, Part 1</h2>
+    <p>strategic planning (vision, mission, strategy, goal, objective, KPI), KPI types, organizational structure, governance functions, roles and responsibilities</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec11-governance-components-2.html" data-ch="11">
+    <div class="n">Lecture 11</div>
+    <h2>Cybersecurity Governance, Part 2: Operational Framework</h2>
+    <p>policy types, anatomy, lifespan and language, standards, rules, guidelines, procedures, processes</p>
+    <div class="best"></div>
+  </a>
+  <a class="chap" href="lec12-data-classification.html" data-ch="12">
+    <div class="n">Lecture 12</div>
+    <h2>Case Study: Data Classification Process</h2>
+    <p>data vs data assets, structured and unstructured data, classification methods, sensitivity tiers, classification factors, GDPR/CCPA/NIST/PDPL data types, process components</p>
+    <div class="best"></div>
+  </a>
+</main>
+<footer>Your best score for each lecture is saved in this browser.</footer>
+<script>document.querySelectorAll('.chap').forEach(a=>{try{const b=localStorage.getItem('cyberquiz-best-'+a.dataset.ch);if(b!==null)a.querySelector('.best').textContent='Best score: '+b+' / 10';}catch(e){}});</script>
+</div>
+</body>
+</html>

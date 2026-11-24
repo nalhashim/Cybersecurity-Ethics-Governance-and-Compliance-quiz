@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 5 Quiz: Cybersecurity Ethics in Applications</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#1d2433;--muted:#5d6678;--line:#e3e6ee;--accent:#2f5bea;--accent-soft:#e9efff;
+--ok:#16803c;--ok-soft:#e6f6ec;--bad:#c2312f;--bad-soft:#fdecec;--code-bg:#f2f4f8;--code-text:#1d2433;--warn:#9a6700;--warn-soft:#fff6db}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1b1f29;--text:#e6e9f0;--muted:#9aa3b5;--line:#2c3240;--accent:#7c9cff;--accent-soft:#232c45;
+--ok:#4cc27a;--ok-soft:#173225;--bad:#ff7b78;--bad-soft:#3a1f22;--code-bg:#141821;--code-text:#dfe5f2;--warn:#e7b84d;--warn-soft:#33290f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px 64px}
+header.top{margin-bottom:20px}
+.crumbs{font-size:14px;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.crumbs a{text-decoration:none}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:28px;line-height:1.25;margin:4px 0 8px}
+.sub{color:var(--muted);margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.qnum{font-weight:700}
+.badge{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.status{margin-left:auto;font-size:13px;font-weight:600}
+.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}
+.qtext{margin:0 0 12px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.5;background:var(--code-bg);color:var(--code-text);
+border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:10px 0;white-space:pre}
+pre code{background:none;padding:0}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:5px}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tf{grid-template-columns:1fr 1fr}
+textarea{width:100%;min-height:90px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;padding:10px 12px;
+border:1px solid var(--line);border-radius:8px;background:var(--code-bg);color:var(--text);resize:vertical}
+textarea.code{min-height:160px}
+textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+button{font:inherit;font-size:14px;font-weight:600;border-radius:8px;padding:7px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff}
+button.ghost{background:transparent;color:var(--accent)}
+button.small{padding:5px 11px;font-size:13px}
+button:disabled{opacity:.5;cursor:default}
+.feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:15px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--ok-soft);border-left:4px solid var(--ok)}
+.feedback.bad{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.feedback.info{background:var(--accent-soft);border-left:4px solid var(--accent)}
+.feedback pre{background:var(--card)}
+.selfmark{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;font-size:14px}
+.summary{position:sticky;bottom:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:20px;
+display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.score{font-weight:700;font-size:18px}
+.bar{flex:1 1 160px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:24px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:20px}
+.chap{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.chap:hover{border-color:var(--accent)}
+.chap .n{color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.chap h2{font-size:17px;margin:4px 0 6px;line-height:1.3}
+.chap p{margin:0;color:var(--muted);font-size:14px}
+.best{margin-top:8px;font-size:13px;color:var(--ok);font-weight:600;min-height:1em}
+footer{color:var(--muted);font-size:13px;margin-top:32px;text-align:center}
+@media (max-width:520px){h1{font-size:23px}.card{padding:16px}.tf{grid-template-columns:1fr}}
+
+.scenario{background:var(--warn-soft);border-left:4px solid var(--warn);border-radius:8px;padding:10px 14px;margin:0 0 12px}
+.scenario b.lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--warn);margin-bottom:2px}
+.fillrow{display:flex;gap:8px;flex-wrap:wrap}
+.fillrow input{flex:1 1 220px;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--code-bg);color:var(--text)}
+.fillrow input:focus{outline:2px solid var(--accent);outline-offset:1px}
+textarea.open{font-family:inherit;font-size:15px;min-height:120px}
+.feedback .model{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="crumbs"><a href="index.html">← All lectures</a><span>Lecture 5 of 12</span></div>
+  <div class="kicker">Lecture 5 quiz</div>
+  <h1>Cybersecurity Ethics in Applications</h1>
+  <p class="sub">10 questions on: ethical issues in business, artificial intelligence, cloud computing, Internet of Things.</p>
+  <p class="sub" style="margin-top:8px">Check each answer as you go, or press <b>Check all</b> at the bottom. For open case studies and short answers, compare with the model answer and mark it yourself.</p>
+</header>
+<main id="quiz"></main>
+<div class="summary">
+  <span class="score" id="score">0 / 10</span>
+  <div class="bar"><span id="barfill"></span></div>
+  <span class="sub" id="answered"></span>
+  <button id="checkall">Check all</button>
+  <button id="reset" class="ghost">Start over</button>
+</div>
+<nav class="pager"><a href="lec04-social-media-ethics.html">← Lecture 4: Social Media Ethics and Responsible Participation</a><a href="lec06-cyber-laws.html">Lecture 6: Introduction to Cyber Laws →</a></nav>
+<footer>SEC2102 · Cybersecurity Ethics, Governance, and Compliance · Lecture 5</footer>
+<script>const LECTURE=5;const QUESTIONS=[{"type": "mcq", "q": "In AI ethics, “artificial stupidity” refers to:", "options": ["AI replacing large parts of the workforce", "AI making mistakes because training cannot cover every real-world situation", "AI becoming more intelligent than humans", "AI being used maliciously"], "answer": 1, "explain": "Unemployment is about jobs, singularity is about AI surpassing humans, and security is about malicious use."}, {"type": "mcq", "q": "The AI ethical issue called “racist robots” is about:", "options": ["Robots demanding legal rights", "AI systems containing bias or discriminatory behaviour", "Robots harming humans physically", "AI modelling human relationships"], "answer": 1, "explain": "AI systems may not always be neutral; they can contain bias."}, {"type": "tf", "q": "The ethical approach toward AI says the autonomous ability to harm, destroy or deceive humans may be given to AI systems if they are supervised closely.", "answer": false, "explain": "“Confronting the power to destroy”: this ability should not be given to AI systems. Governments, researchers and industry should develop standards for design, development, regulation and deployment."}, {"type": "mcq", "q": "In cloud computing, the “problem of many hands” means:", "options": ["Too many users share one account", "One service depends on another provider, which depends on another, so it is hard to tell who is responsible when something goes wrong", "Data is stored in many countries", "Many employees have administrator rights"], "answer": 1, "explain": "Chains of dependent services make responsibility hard to assign."}, {"type": "case", "scenario": "A cloud-based fitness app collects users’ heart-rate data to track their workouts. Two years later, the provider starts using the same data to sell targeted insurance advertisements.", "q": "Which ethical issue in cloud computing does this show?", "options": ["Function creep", "Problem of many hands", "Control", "Miniaturization"], "answer": 0, "explain": "Function creep is when information collected for one purpose is later used for another purpose."}, {"type": "mcq", "q": "Which of these is <b>NOT<\/b> listed as something cloud providers should promote to protect users’ self-determination?", "options": ["Transparency", "Informed consent", "Redress mechanisms", "Maximum data collection"], "answer": 3, "explain": "Providers should promote transparency, accountability, informed consent and redress mechanisms."}, {"type": "tf", "q": "Employees should be informed in advance about the extent of workplace monitoring.", "answer": true, "explain": "Organizations should balance employee privacy with security and business protection, and tell employees how far monitoring goes."}, {"type": "case", "scenario": "A smart traffic-light system is hacked and behaves unexpectedly, causing an accident. The city, the device maker and the software vendor all blame each other.", "q": "Which IoT ethical issue does this best illustrate?", "options": ["Enforcing property rights on information", "Accountability for decisions made by autonomous systems", "Ubiquity and omnipresence", "Ambiguity"], "answer": 1, "explain": "When a smart system fails, is hacked or behaves unexpectedly, it may be difficult to determine who is responsible."}, {"type": "mcq", "q": "Which IoT ethical problem describes connected devices becoming so small that they are hard to inspect, audit or control?", "options": ["Ultra-connectivity", "Miniaturization and invisibility", "Difficult identification", "Incorporated intelligence"], "answer": 1, "explain": "Miniaturization and invisibility make devices hard to inspect or control."}, {"type": "fill", "q": "IoT information should remain complete, original, consistent, accurate and attributable throughout its lifecycle. This is the issue of ensuring the ________ of information.", "accept": ["integrity"], "answer_text": "integrity", "explain": "Ensuring the integrity of information is one of the IoT ethical issues, alongside access, privacy and accountability."}];</script>
+<script>
+const TYPES={mcq:'Multiple choice',tf:'True / False',case:'Case study',fill:'Fill in the blank',short:'Short answer'};
+const root=document.getElementById('quiz');
+const state=QUESTIONS.map(()=>({done:false,correct:false}));
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function setStatus(i,ok,card,label){
+  state[i]={done:true,correct:ok};
+  const s=card.querySelector('.status');s.textContent=label||(ok?'✓ Correct':'✗ Incorrect');s.className='status '+(label?'':ok?'ok':'bad');
+  updateScore();
+}
+function showFeedback(fb,ok,html){fb.className='feedback show '+(ok===null?'info':ok?'ok':'bad');fb.innerHTML=html;}
+const normTxt=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+
+QUESTIONS.forEach((q,i)=>{
+  const card=el('section','card');card.id='q'+(i+1);
+  const head=el('div','qhead');
+  head.append(el('span','qnum','Q'+(i+1)),el('span','badge',TYPES[q.type]),el('span','status'));
+  card.append(head);
+  if(q.scenario){const s=el('div','scenario');s.append(el('b','lbl','Scenario'));const t=el('div');t.innerHTML=q.scenario;s.append(t);card.append(s);}
+  card.append(el('p','qtext',q.q));
+  const fb=el('div','feedback');
+  const actions=el('div','actions');
+  const choice=q.type==='mcq'||q.type==='tf'||(q.type==='case'&&q.options);
+  const open=q.type==='short'||(q.type==='case'&&!q.options);
+
+  if(choice){
+    const opts=q.type==='tf'?['True','False']:q.options;
+    const correctIdx=q.type==='tf'?(q.answer?0:1):q.answer;
+    const box=el('div','opts'+(q.type==='tf'?' tf':''));
+    const labels=opts.map((o,j)=>{
+      const lab=el('label','opt');const r=el('input');r.type='radio';r.name='q'+i;r.value=j;
+      const t=el('span');t.textContent=o;lab.append(r,t);box.append(lab);return lab;});
+    card.append(box);
+    const check=el('button',null,'Check answer');
+    const reveal=el('button','ghost','Show answer');
+    const correctText=opts[correctIdx];
+    const lock=()=>{card.querySelectorAll('input').forEach(x=>x.disabled=true);check.disabled=true;reveal.disabled=true;};
+    check.onclick=()=>{
+      const sel=card.querySelector('input:checked');
+      if(!sel){showFeedback(fb,false,'Choose an answer first.');return;}
+      const ok=+sel.value===correctIdx;
+      labels.forEach((l,j)=>{if(j===correctIdx)l.classList.add('correct');else if(j===+sel.value)l.classList.add('wrong');});
+      lock();
+      showFeedback(fb,ok,(ok?'<b>Correct!</b> ':'<b>Not quite.</b> The answer is <b>'+esc(correctText)+'</b>. ')+q.explain);
+      setStatus(i,ok,card);
+    };
+    reveal.onclick=()=>{labels[correctIdx].classList.add('correct');lock();
+      showFeedback(fb,null,'The answer is <b>'+esc(correctText)+'</b>. '+q.explain);setStatus(i,false,card,'Answer shown');};
+    card._check=()=>{if(!state[i].done){if(card.querySelector('input:checked'))check.onclick();else reveal.onclick();}};
+    actions.append(check,reveal);
+    card.append(fb,actions);
+  }
+  else if(q.type==='fill'){
+    const row=el('div','fillrow');const inp=el('input');inp.type='text';inp.placeholder='Type your answer…';inp.autocomplete='off';row.append(inp);card.append(row);
+    const check=el('button',null,'Check answer');const reveal=el('button','ghost','Show answer');
+    const lock=()=>{inp.disabled=true;check.disabled=true;reveal.disabled=true;};
+    check.onclick=()=>{
+      if(!inp.value.trim()){showFeedback(fb,false,'Type an answer first.');return;}
+      const ok=q.accept.some(a=>normTxt(a)===normTxt(inp.value));
+      lock();showFeedback(fb,ok,(ok?'<b>Correct!</b> ':'<b>Not quite.</b> The answer is <b>'+esc(q.answer_text)+'</b>. ')+q.explain);setStatus(i,ok,card);
+    };
+    reveal.onclick=()=>{lock();showFeedback(fb,null,'The answer is <b>'+esc(q.answer_text)+'</b>. '+q.explain);setStatus(i,false,card,'Answer shown');};
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')check.onclick();});
+    card._check=()=>{if(!state[i].done){if(inp.value.trim())check.onclick();else reveal.onclick();}};
+    actions.append(check,reveal);
+    card.append(fb,actions);
+  }
+  else if(open){
+    const ta=el('textarea','open');ta.placeholder='Write your answer here…';card.append(ta);
+    const reveal=el('button',null,'Show model answer');
+    const mark=el('div','selfmark');mark.style.display='none';
+    const yes=el('button','small','✓ Mine covers it');const no=el('button','small ghost','✗ Mine needs work');
+    mark.append(el('span',null,'Compare your answer with the model answer:'),yes,no);
+    reveal.onclick=()=>{reveal.disabled=true;
+      const m=el('div','model');m.textContent=q.model;
+      showFeedback(fb,null,'<b>Model answer</b> (other well-argued answers can also be correct):'+m.outerHTML);
+      mark.style.display='flex';};
+    yes.onclick=()=>{setStatus(i,true,card);yes.disabled=no.disabled=true;};
+    no.onclick=()=>{setStatus(i,false,card);yes.disabled=no.disabled=true;};
+    card._check=()=>{if(!state[i].done&&!reveal.disabled)reveal.onclick();};
+    actions.append(reveal);
+    card.append(fb,mark,actions);
+  }
+  root.append(card);
+});
+
+function updateScore(){
+  const done=state.filter(s=>s.done).length,ok=state.filter(s=>s.correct).length;
+  document.getElementById('score').textContent=ok+' / '+QUESTIONS.length;
+  document.getElementById('answered').textContent=done+' of '+QUESTIONS.length+' answered';
+  document.getElementById('barfill').style.width=(ok/QUESTIONS.length*100)+'%';
+  if(done===QUESTIONS.length){try{const k='cyberquiz-best-'+LECTURE;const b=+localStorage.getItem(k)||0;if(ok>=b)localStorage.setItem(k,ok);}catch(e){}}
+}
+document.getElementById('checkall').onclick=()=>{document.querySelectorAll('#quiz .card').forEach(c=>c._check&&c._check());
+  const firstOpen=[...document.querySelectorAll('#quiz .card')].find((c,i)=>!state[i].done);
+  if(firstOpen)firstOpen.scrollIntoView({behavior:'smooth',block:'center'});};
+document.getElementById('reset').onclick=()=>location.reload();
+updateScore();
+</script>
+</div>
+</body>
+</html>
